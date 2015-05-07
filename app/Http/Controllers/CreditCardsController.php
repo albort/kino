@@ -43,9 +43,7 @@ class CreditCardsController extends Controller {
 				'security_code'
 			]);
 
-			$creditCard = CreditCard::create($values);
-			$creditCard->user_id = $uID;
-			$creditCard->save(); 
+			$creditCard = \Auth::user()->creditCards()->create($values);
 
 			return response()->json(['message' => 'Credit Card Added.', 'data' => $creditCard, 'code' => 201], 201);
 		} else {
