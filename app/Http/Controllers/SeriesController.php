@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\CreateSeriesRequest;
+use App\Http\Requests\SeriesRequest;
 
 use App\Serie;
 
@@ -27,7 +27,7 @@ class SeriesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(CreateSeriesRequest $req)
+	public function store(SeriesRequest $req)
 	{
 		if(\Auth::user()->access == 1){
 			$values = $req->only([

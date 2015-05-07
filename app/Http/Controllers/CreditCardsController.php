@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\CreditCard;
-use App\Http\Requests\CreateCreditCardsRequest;
+use App\Http\Requests\CreditCardsRequest;
 
 class CreditCardsController extends Controller {
 
@@ -31,7 +31,7 @@ class CreditCardsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(CreateCreditCardsRequest $req)
+	public function store(CreditCardsRequest $req)
 	{
 		if(\Auth::user()){
 			$uID = \Auth::user()->id;

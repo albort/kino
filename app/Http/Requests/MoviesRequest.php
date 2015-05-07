@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class CreateCreditCardsRequest extends Request {
+class MoviesRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,10 +22,12 @@ class CreateCreditCardsRequest extends Request {
 	public function rules()
 	{
 		return [
-			'company' => 'required',
-			'creditcard_number' => 'required', 
-			'expiration_date' => 'required', 
-			'security_code' => 'required'
+			'name' => 'required', 
+			'description' => 'required', 
+			'director' => 'required',
+			'genre' => 'required',
+			'year' => 'required',
+			'price' => 'required'
 		];
 	}
 
@@ -39,5 +41,4 @@ class CreateCreditCardsRequest extends Request {
 	{
 		return response()->json(['message' => $errors, 'code' => 422], 422);
 	}
-
 }

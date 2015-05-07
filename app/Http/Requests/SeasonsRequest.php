@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class CreateMoviesRequest extends Request {
+class SeasonsRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class CreateMoviesRequest extends Request {
 	public function rules()
 	{
 		return [
-			'name' => 'required', 
-			'description' => 'required', 
+			'season_number' => 'required',
+			'episodes' => 'required', 
 			'director' => 'required',
-			'genre' => 'required',
-			'year' => 'required',
+			'year' => 'required',  
 			'price' => 'required'
 		];
 	}
@@ -41,4 +40,5 @@ class CreateMoviesRequest extends Request {
 	{
 		return response()->json(['message' => $errors, 'code' => 422], 422);
 	}
+
 }

@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\CreateMoviesRequest;
+use App\Http\Requests\MoviesRequest;
 
 use App\Movies;
 
@@ -28,7 +28,7 @@ class MoviesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(CreateMoviesRequest $req)
+	public function store(MoviesRequest $req)
 	{
 		if(\Auth::user()->access == 1){
 			$values = $req->only([
@@ -70,7 +70,7 @@ class MoviesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(CreateMoviesRequest $req, $id)
+	public function update($id)
 	{	
 		if(\Auth::user()->access == 1){
 			$movie = Movie::find($id);
@@ -112,5 +112,4 @@ class MoviesController extends Controller {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 		}
 	}
-
 }

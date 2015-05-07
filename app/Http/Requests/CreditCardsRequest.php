@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class CreateSeasonsRequest extends Request {
+class CreditCardsRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class CreateSeasonsRequest extends Request {
 	public function rules()
 	{
 		return [
-			'season_number' => 'required',
-			'episodes' => 'required', 
-			'director' => 'required',
-			'year' => 'required',  
-			'price' => 'required'
+			'company' => 'required',
+			'creditcard_number' => 'required', 
+			'expiration_date' => 'required', 
+			'security_code' => 'required'
 		];
 	}
 

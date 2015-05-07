@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class CreateSeriesRequest extends Request {
+class SeriesRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.

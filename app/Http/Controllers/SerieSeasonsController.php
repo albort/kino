@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\CreateSeasonsRequest;
+use App\Http\Requests\SeasonsRequest;
 
 use App\Serie;
 use App\SerieSeason;
@@ -32,7 +32,7 @@ class SerieSeasonsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(CreateSeasonsRequest $req, $serieID)
+	public function store(SeasonsRequest $req, $serieID)
 	{
 		if(\Auth::user()->access == 1){
 			$serie = Serie::find($serieID);
@@ -82,7 +82,7 @@ class SerieSeasonsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(CreateSeasonsRequest $req, $serieID, $seasonID)
+	public function update($serieID, $seasonID)
 	{
 		if(\Auth::user()->access == 1){
 			$serie = Serie::find($serieID);
