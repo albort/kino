@@ -9,7 +9,7 @@ class SerieSeason extends Model
 	 *
 	 * @var string
 	 */
-	protected $table = 'serie_season';
+	protected $table = 'serie_seasons';
 
 	/**
 	 * The attributes that are mass assignable.

@@ -20,4 +20,7 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::resource('creditcards', 'CreditCardsController', ['execpt' => 'create', 'edit']);
+Route::resource('creditcards', 'CreditCardsController', ['only' => ['index', 'store', 'show', 'destroy']]);
+Route::resource('movies', 'MoviesController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+Route::resource('series', 'SeriesController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+Route::resource('serie.season', 'SerieSeasonsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
