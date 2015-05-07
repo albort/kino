@@ -16,7 +16,7 @@ class CreditcardsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('user_id');
-			$table->string('comapny');
+			$table->string('company');
 			$table->string('creditcard_number');
 			$table->string('expiration_date');
 			$table->integer('security_code');
