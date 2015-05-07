@@ -19,7 +19,7 @@ class CreditCardsController extends Controller {
 	{		
 		if(\Auth::user()){
 			$uID = \Auth::user()->id;
-			$creditCards = CreditCard::where('user_id', '=', $uID);
+			$creditCards = CreditCard::where('user_id', $uID)->get();
 			return response()->json(['data' => $creditCards, 'code' => 200], 200);
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
