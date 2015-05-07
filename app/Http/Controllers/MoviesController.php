@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\MoviesRequest;
 
-use App\Movies;
+use App\Movie;
 
 class MoviesController extends Controller {
 
@@ -30,19 +30,23 @@ class MoviesController extends Controller {
 	 */
 	public function store(MoviesRequest $req)
 	{
-		if(\Auth::user()->access == 1){
-			$values = $req->only([
-				'name', 
-				'description', 
-				'director',
-				'genre',
-				'year',
-				'price'
-			]);
-			
-			$movie = Movie::create($values);
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$values = $req->only([
+					'name', 
+					'description', 
+					'director',
+					'genre',
+					'year',
+					'price'
+				]);
+				
+				$movie = Movie::create($values);
 
-			return response()->json(['message' => 'Movie Added.', 'data' => $movie, 'code' => 201], 201);
+				return response()->json(['message' => 'Movie Added.', 'data' => $movie, 'code' => 201], 201);
+			} else {
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
+			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 		}
@@ -72,20 +76,24 @@ class MoviesController extends Controller {
 	 */
 	public function update($id)
 	{	
-		if(\Auth::user()->access == 1){
-			$movie = Movie::find($id);
-			if($movie){
-				$movie->name = $req->get('name'); 
-				$movie->description = $req->get('description'); 
-				$movie->director = $req->get('director'); 
-				$movie->genre = $req->get('genre'); 
-				$movie->year = $req->get('year'); 
-				$movie->price = $req->get('price'); 
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$movie = Movie::find($id);
+				if($movie){
+					$movie->name = $req->get('name'); 
+					$movie->description = $req->get('description'); 
+					$movie->director = $req->get('director'); 
+					$movie->genre = $req->get('genre'); 
+					$movie->year = $req->get('year'); 
+					$movie->price = $req->get('price'); 
 
-				$movie->save();
-				return response()->json(['message' => 'Movie Updated.', 'data' => $movie, 'code' => 201], 201);
+					$movie->save();
+					return response()->json(['message' => 'Movie Updated.', 'data' => $movie, 'code' => 201], 201);
+				} else {
+					return response()->json(['message' => 'Movie Not Found.', 'code' => 404], 404);
+				}
 			} else {
-				return response()->json(['message' => 'Movie Not Found.', 'code' => 404], 404);
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
@@ -100,13 +108,17 @@ class MoviesController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		if(\Auth::user()->access == 1){
-			$movie = Movie::find($id);
-			if($movie){
-				$movie->delete();
-				return response()->json(['message' => 'Movie Erased.', 'code' => 201], 201);
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$movie = Movie::find($id);
+				if($movie){
+					$movie->delete();
+					return response()->json(['message' => 'Movie Erased.', 'code' => 201], 201);
+				} else {
+					return response()->json(['message' => 'Movie Not Found.', 'code' => 404], 404);
+				}
 			} else {
-				return response()->json(['message' => 'Movie Not Found.', 'code' => 404], 404);
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);

@@ -29,16 +29,20 @@ class SeriesController extends Controller {
 	 */
 	public function store(SeriesRequest $req)
 	{
-		if(\Auth::user()->access == 1){
-			$values = $req->only([
-				'name', 
-				'description', 
-				'genre'
-			]);
-			
-			$serie = Serie::create($values);
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$values = $req->only([
+					'name', 
+					'description', 
+					'genre'
+				]);
+				
+				$serie = Serie::create($values);
 
-			return response()->json(['message' => 'Serie Added.', 'data' => $serie, 'code' => 201], 201);
+				return response()->json(['message' => 'Serie Added.', 'data' => $serie, 'code' => 201], 201);
+			} else {
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
+			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 		}
@@ -68,17 +72,21 @@ class SeriesController extends Controller {
 	 */
 	public function update($id)
 	{
-		if(\Auth::user()->access == 1){
-			$serie = Serie::find($id);
-			if($serie){
-				$serie->name = $req->get('name'); 
-				$serie->description = $req->get('description'); 
-				$serie->genre = $req->get('genre'); 
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$serie = Serie::find($id);
+				if($serie){
+					$serie->name = $req->get('name'); 
+					$serie->description = $req->get('description'); 
+					$serie->genre = $req->get('genre'); 
 
-				$serie->save();
-				return response()->json(['message' => 'Serie Updated.', 'data' => $serie, 'code' => 201], 201);
+					$serie->save();
+					return response()->json(['message' => 'Serie Updated.', 'data' => $serie, 'code' => 201], 201);
+				} else {
+					return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				}
 			} else {
-				return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
@@ -93,13 +101,17 @@ class SeriesController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		if(\Auth::user()->access == 1){
-			$serie = Serie::find($id);
-			if($serie){
-				$serie->delete();
-				return response()->json(['message' => 'Serie Erased.', 'code' => 201], 201);
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$serie = Serie::find($id);
+				if($serie){
+					$serie->delete();
+					return response()->json(['message' => 'Serie Erased.', 'code' => 201], 201);
+				} else {
+					return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				}
 			} else {
-				return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);

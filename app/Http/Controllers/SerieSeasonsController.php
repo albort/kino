@@ -34,21 +34,25 @@ class SerieSeasonsController extends Controller {
 	 */
 	public function store(SeasonsRequest $req, $serieID)
 	{
-		if(\Auth::user()->access == 1){
-			$serie = Serie::find($serieID);
-			if($serie){
-				$values = $req->only([
-					"season_number",
-					'episodes',
-					'director',
-					'year',
-					'price'
-				]);
-				$season = $serie->seasons()->create($values);
-				
-				return response()->json(['message' => 'Season Added.', 'data' => $season, 'code' => 201], 201);
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$serie = Serie::find($serieID);
+				if($serie){
+					$values = $req->only([
+						"season_number",
+						'episodes',
+						'director',
+						'year',
+						'price'
+					]);
+					$season = $serie->seasons()->create($values);
+					
+					return response()->json(['message' => 'Season Added.', 'data' => $season, 'code' => 201], 201);
+				} else {
+					return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				}
 			} else {
-				return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
@@ -84,24 +88,28 @@ class SerieSeasonsController extends Controller {
 	 */
 	public function update($serieID, $seasonID)
 	{
-		if(\Auth::user()->access == 1){
-			$serie = Serie::find($serieID);
-			if($serie){
-				$season = $serie->seasons()->where('season_number', $seasonID)->first();
-				if($season){
-					$season->season_number = $req->get('season_number'); 
-					$season->episodes = $req->get('episodes'); 
-					$season->director = $req->get('director'); 
-					$season->year = $req->get('year'); 
-					$season->price = $req->get('price'); 
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$serie = Serie::find($serieID);
+				if($serie){
+					$season = $serie->seasons()->where('season_number', $seasonID)->first();
+					if($season){
+						$season->season_number = $req->get('season_number'); 
+						$season->episodes = $req->get('episodes'); 
+						$season->director = $req->get('director'); 
+						$season->year = $req->get('year'); 
+						$season->price = $req->get('price'); 
 
-					$season->save();
-					return response()->json(['message' => 'Season Updated.', 'data' => $season, 'code' => 201], 201);
+						$season->save();
+						return response()->json(['message' => 'Season Updated.', 'data' => $season, 'code' => 201], 201);
+					} else {
+						return response()->json(['message' => 'Season Not Found.', 'code' => 404], 404);
+					}			
 				} else {
-					return response()->json(['message' => 'Season Not Found.', 'code' => 404], 404);
-				}			
+					return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				}
 			} else {
-				return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
@@ -116,20 +124,24 @@ class SerieSeasonsController extends Controller {
 	 */
 	public function destroy($serieID, $seasonID)
 	{
-		if(\Auth::user()->access == 1){
-			$serie = Serie::find($serieID);
-			if($serie){
-				$season = $serie->seasons()->where('season_number', $seasonID)->first();
-				if($season){
-					$season->delete();
-					return response()->json(['message' => 'Season Erased.', 'code' => 201], 201);
+		if(\Auth::user()){
+			if(\Auth::user()->access == 1){
+				$serie = Serie::find($serieID);
+				if($serie){
+					$season = $serie->seasons()->where('season_number', $seasonID)->first();
+					if($season){
+						$season->delete();
+						return response()->json(['message' => 'Season Erased.', 'code' => 201], 201);
+					} else {
+						return response()->json(['message' => 'Season Not Found.', 'code' => 404], 404);
+					}			
 				} else {
-					return response()->json(['message' => 'Season Not Found.', 'code' => 404], 404);
-				}			
+					return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				}
 			} else {
-				return response()->json(['message' => 'Serie Not Found.', 'code' => 404], 404);
+				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
-		} else {
+		} else{
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 		}
 	}
