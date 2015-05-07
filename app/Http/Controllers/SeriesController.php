@@ -70,7 +70,7 @@ class SeriesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(SeriesRequest $req, $id)
 	{
 		if(\Auth::user()){
 			if(\Auth::user()->access == 1){

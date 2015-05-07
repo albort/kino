@@ -86,7 +86,7 @@ class SerieSeasonsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($serieID, $seasonID)
+	public function update(SeasonsRequest $req, $serieID, $seasonID)
 	{
 		if(\Auth::user()){
 			if(\Auth::user()->access == 1){
