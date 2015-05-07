@@ -37,7 +37,7 @@ class CreateCreditCardsRequest extends Request {
 	 */
 	public function response(array $errors)
 	{
-		return response()->json(['mensaje' => $errors, 'code' => 422], 422);
+		return response()->json(['message' => $errors, 'code' => 422], 422);
 	}
 
 }
