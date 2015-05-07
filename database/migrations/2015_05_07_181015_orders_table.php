@@ -14,7 +14,6 @@ class OrdersTable extends Migration {
 	{
 		Schema::create('orders', function(Blueprint $table)
 		{
-			protected $fillable = ['user_id', 'credit_card', 'status'];
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->string('credit_card');
