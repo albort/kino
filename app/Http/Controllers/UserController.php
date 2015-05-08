@@ -19,7 +19,7 @@ class UserController extends Controller {
 	public function showCart(){
 		if(\Auth::user()){
 			$user = \Auth::user();
-			return $user->shoppingCart;
+			return response()->json(['data' => $user->shoppingCart, 'code' => 200], 200);
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 		}
@@ -72,7 +72,7 @@ class UserController extends Controller {
 		if(\Auth::user()){
 			$user = \Auth::user();
 			$shoppingCart = $user->shoppingCart()->delete();
-			return response()->json(['message' => 'Shopping Cart Cleared.', 'data' => $shoppingCart, 'code' => 201], 201);
+			return response()->json(['message' => 'Shopping Cart Cleared.', 'code' => 201], 201);
 		} else {
 			return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 		}
@@ -110,32 +110,36 @@ class UserController extends Controller {
 			$credit_card = $user->creditCards()->where('creditcard_number', $credit_card_number)->first();
 			if($credit_card){
 				$shoppingCart = $user->shoppingCart;
-				$total = 0;
-				$order = $user->orders()->create([
-					'credit_card' => $credit_card_number,
-					'total' => $total,
-					'status' => 'Processing'
-				]);
-
-				foreach($shoppingCart as $item){
-					$article_type = $item->article_type;
-					$article_id = $item->article_id;
-					$article_amount = $item->article_amount;
-					$order->items()->create([
-						'article_type' => $article_type,
-						'article_id' => $article_id,
-						'article_amount' => $article_amount
+				if(sizeof($shoppingCart) > 0){
+					$total = 0;
+					$order = $user->orders()->create([
+						'credit_card' => $credit_card_number,
+						'total' => $total,
+						'status' => 'Processing'
 					]);
-					$total = $total + $item->total;
+
+					foreach($shoppingCart as $item){
+						$article_type = $item->article_type;
+						$article_id = $item->article_id;
+						$article_amount = $item->article_amount;
+						$order->items()->create([
+							'article_type' => $article_type,
+							'article_id' => $article_id,
+							'article_amount' => $article_amount
+						]);
+						$total = $total + $item->total;
+					}
+
+					$order->total = $total;
+					$order->save();
+
+					$orderItems = $order->items;
+					$shoppingCart = $user->shoppingCart()->delete();
+					
+					return response()->json(['data' => $order, 'code' => 200], 200);
+				} else {
+					return response()->json(['message' => 'Shopping Cart Empty', 'code' => 404], 404);
 				}
-
-				$order->total = $total;
-				$order->save();
-
-				$orderItems = $order->items;
-				$shoppingCart = $user->shoppingCart()->delete();
-				
-				return response()->json(['data' => $shoppingCart, 'code' => 200], 200);
 			} else {
 				return response()->json(['message' => 'Credit Card Not Found.', 'code' => 404], 404);
 			}

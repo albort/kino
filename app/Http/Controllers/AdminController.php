@@ -22,7 +22,7 @@ class AdminController extends Controller {
 	{
 		if(\Auth::user()){
 			if(\Auth::user()->access == 1){
-				return Order::all();
+				return response()->json(['data' => Order::all(), 'code' => 200], 200);
 			} else {
 				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
@@ -44,7 +44,7 @@ class AdminController extends Controller {
 				$order = Order::find($id);
 				if($order){
 					$order->items;
-					return $order;
+					return response()->json(['data' => $order, 'code' => 200], 200);
 				} else {
 					return response()->json(['message' => 'Order Not Found.', 'code' => 404], 404);
 				}
@@ -112,7 +112,7 @@ class AdminController extends Controller {
 		if(\Auth::user()){
 			if(\Auth::user()->access == 1){
 				$user = User::Find($id);
-				return $user->orders;
+				return response()->json(['data' => $user->orders, 'code' => 200], 200);
 			} else {
 				return response()->json(['message' => 'Permision Denied', 'code' => 401], 401);
 			}
