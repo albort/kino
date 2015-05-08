@@ -24,3 +24,7 @@ Route::resource('user/creditcards', 'CreditCardsController', ['only' => ['index'
 Route::resource('movies', 'MoviesController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
 Route::resource('series', 'SeriesController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
 Route::resource('serie.season', 'SerieSeasonsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+
+Route::get('user/getcart', 'UserController@showCart');
+Route::get('user/addtocart', 'UserController@addtocart');
+Route::get('user/deletecart', 'UserController@deleteCart');

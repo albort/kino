@@ -34,7 +34,7 @@ class CartItem extends Model
 		if($article_type == 'movie'){
 			return $this->hasOne('App\Movie');
 		} else {
-			return $this->hasOne('App\SerieSeason')
+			return $this->hasOne('App\SerieSeason');
 		}
 	}
 }
