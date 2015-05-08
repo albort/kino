@@ -93,6 +93,7 @@ class UserController extends Controller {
 			$user = \Auth::user();
 			$order = $user->orders()->find($id);
 			if($order){
+				$order->items;
 				return response()->json(['data' => $order, 'code' => 200], 200);
 			} else {
 				return response()->json(['message' => 'Order Not Found.', 'code' => 404], 404);
