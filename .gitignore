@@ -1,3 +1,7 @@
 /vendor
 /node_modules
 .env
+
+kino.sublime-project
+
+kino.sublime-workspace

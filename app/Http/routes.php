@@ -25,6 +25,10 @@ Route::resource('movies', 'MoviesController', ['only' => ['index', 'store', 'sho
 Route::resource('series', 'SeriesController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
 Route::resource('serie.season', 'SerieSeasonsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
 
-Route::get('user/getcart', 'UserController@showCart');
-Route::get('user/addtocart', 'UserController@addtocart');
-Route::get('user/deletecart', 'UserController@deleteCart');
+Route::get('user/cart', 'UserController@showCart');
+Route::post('user/addtocart', 'UserController@addtocart');
+Route::delete('user/cart', 'UserController@deleteCart');
+
+Route::get('user/orders', 'UserController@showOrders');
+Route::get('user/orders/{id}', 'UserController@showOrder');
+Route::post('user/checkout', 'UserController@checkOut');

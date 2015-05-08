@@ -2,14 +2,14 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class CartItem extends Model
+class OrderItem extends Model
 {
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'cart_items';
+	protected $table = 'order_items';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -34,7 +34,7 @@ class CartItem extends Model
 		if($article_type == 'movie'){
 			return $this->hasOne('App\Movie');
 		} else {
-			return $this->hasOne('App\SerieSeason')
+			return $this->hasOne('App\SerieSeason');
 		}
 	}
 }

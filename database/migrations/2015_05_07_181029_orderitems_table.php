@@ -17,7 +17,7 @@ class OrderitemsTable extends Migration {
 			$table->increments('id');
 			$table->integer('order_id');
 			$table->integer('article_id');
-			$table->string('artilce_type');
+			$table->string('article_type');
 			$table->integer('article_amount');
 			$table->float('total');
 			$table->timestamps();
