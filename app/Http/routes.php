@@ -10,20 +10,33 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
-
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
 
+Route::post('admin/add/movie', 'MoviesController@store');
+Route::post('admin/add/serie', 'SeriesController@store');
+Route::post('admin/add/serie/{id}/season', 'SerieSeasonsController@store');
+
+Route::put('admin/update/movie/{id}', 'MoviesController@update');
+Route::put('admin/update/serie/{id}', 'SeriesController@update');
+Route::put('admin/update/serie/{serieID}/season/{seasonID}', 'SerieSeasonsController@update');
+
+Route::delete('admin/delete/movie/{id}', 'MoviesController@destroy');
+Route::delete('admin/delete/serie/{id}', 'SeriesController@destroy');
+Route::delete('admin/delete/serie/{serieID}/season/{seasonID}', 'SerieSeasonsController@destroy');
+
+Route::get('admin/orders/', 'AdminController@index');
+Route::get('admin/orders/view/{id}', 'AdminController@show');
+Route::get('admin/orders/user/{id}', 'AdminController@userOrders');
+Route::put('admin/orders/update/{id}', 'AdminController@update');
+Route::delete('admin/orders/delete/{id}', 'AdminController@destroy');
+
 Route::resource('user/creditcards', 'CreditCardsController', ['only' => ['index', 'store', 'show', 'destroy']]);
-Route::resource('movies', 'MoviesController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
-Route::resource('series', 'SeriesController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
-Route::resource('serie.season', 'SerieSeasonsController', ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+Route::resource('movies', 'MoviesController', ['only' => ['index', 'show']]);
+Route::resource('series', 'SeriesController', ['only' => ['index', 'show']]);
+Route::resource('serie.season', 'SerieSeasonsController', ['only' => ['index', 'show']]);
 
 Route::get('user/cart', 'UserController@showCart');
 Route::post('user/addtocart', 'UserController@addtocart');
