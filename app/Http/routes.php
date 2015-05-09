@@ -10,38 +10,45 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
 
-Route::post('admin/add/movie', 'MoviesController@store');
-Route::post('admin/add/serie', 'SeriesController@store');
-Route::post('admin/add/serie/{id}/season', 'SerieSeasonsController@store');
+Route::group(array('prefix' => 'api/v1'), function(){
+	Route::controllers([
+		'auth' => 'Auth\AuthController',
+		'password' => 'Auth\PasswordController',
+	]);
 
-Route::put('admin/update/movie/{id}', 'MoviesController@update');
-Route::put('admin/update/serie/{id}', 'SeriesController@update');
-Route::put('admin/update/serie/{serieID}/season/{seasonID}', 'SerieSeasonsController@update');
+	Route::group(array('prefix' => 'admin'), function(){
+		Route::post('add/movie', 'MoviesController@store');
+		Route::post('add/serie', 'SeriesController@store');
+		Route::post('admin/add/serie/{id}/season', 'SerieSeasonsController@store');
 
-Route::delete('admin/delete/movie/{id}', 'MoviesController@destroy');
-Route::delete('admin/delete/serie/{id}', 'SeriesController@destroy');
-Route::delete('admin/delete/serie/{serieID}/season/{seasonID}', 'SerieSeasonsController@destroy');
+		Route::put('update/movie/{id}', 'MoviesController@update');
+		Route::put('update/serie/{id}', 'SeriesController@update');
+		Route::put('update/serie/{serieID}/season/{seasonID}', 'SerieSeasonsController@update');
 
-Route::get('admin/orders/', 'AdminController@index');
-Route::get('admin/orders/view/{id}', 'AdminController@show');
-Route::get('admin/orders/user/{id}', 'AdminController@userOrders');
-Route::put('admin/orders/update/{id}', 'AdminController@update');
-Route::delete('admin/orders/delete/{id}', 'AdminController@destroy');
+		Route::delete('delete/movie/{id}', 'MoviesController@destroy');
+		Route::delete('delete/serie/{id}', 'SeriesController@destroy');
+		Route::delete('delete/serie/{serieID}/season/{seasonID}', 'SerieSeasonsController@destroy');
 
-Route::resource('user/creditcards', 'CreditCardsController', ['only' => ['index', 'store', 'show', 'destroy']]);
-Route::resource('movies', 'MoviesController', ['only' => ['index', 'show']]);
-Route::resource('series', 'SeriesController', ['only' => ['index', 'show']]);
-Route::resource('serie.season', 'SerieSeasonsController', ['only' => ['index', 'show']]);
+		Route::get('orders/', 'AdminController@index');
+		Route::get('orders/view/{id}', 'AdminController@show');
+		Route::get('orders/user/{id}', 'AdminController@userOrders');
+		Route::put('orders/update/{id}', 'AdminController@update');
+		Route::delete('orders/delete/{id}', 'AdminController@destroy');
+	});
 
-Route::get('user/cart', 'UserController@showCart');
-Route::post('user/addtocart', 'UserController@addtocart');
-Route::delete('user/cart', 'UserController@deleteCart');
+	Route::group(array('prefix' => 'user'), function(){
+		Route::resource('creditcards', 'CreditCardsController', ['only' => ['index', 'store', 'show', 'destroy']]);
+		Route::get('cart', 'UserController@showCart');
+		Route::post('addtocart', 'UserController@addtocart');
+		Route::delete('cart', 'UserController@deleteCart');
 
-Route::get('user/orders', 'UserController@showOrders');
-Route::get('user/orders/{id}', 'UserController@showOrder');
-Route::post('user/checkout', 'UserController@checkOut');
+		Route::get('orders', 'UserController@showOrders');
+		Route::get('orders/{id}', 'UserController@showOrder');
+		Route::post('checkout', 'UserController@checkOut');
+	});
+
+	Route::resource('movies', 'MoviesController', ['only' => ['index', 'show']]);
+	Route::resource('series', 'SeriesController', ['only' => ['index', 'show']]);
+	Route::resource('serie.season', 'SerieSeasonsController', ['only' => ['index', 'show']]);	
+});
