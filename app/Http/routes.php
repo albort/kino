@@ -20,7 +20,7 @@ Route::group(array('prefix' => 'api/v1'), function(){
 	Route::group(array('prefix' => 'admin'), function(){
 		Route::post('add/movie', 'MoviesController@store');
 		Route::post('add/serie', 'SeriesController@store');
-		Route::post('admin/add/serie/{id}/season', 'SerieSeasonsController@store');
+		Route::post('add/serie/{id}/season', 'SerieSeasonsController@store');
 
 		Route::put('update/movie/{id}', 'MoviesController@update');
 		Route::put('update/serie/{id}', 'SeriesController@update');
